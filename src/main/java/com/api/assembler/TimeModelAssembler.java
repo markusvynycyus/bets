@@ -14,7 +14,6 @@ public class TimeModelAssembler {
     @Autowired
     private ModelMapper modelMaper;
 
-    //--> retorna uma Instância de Restaurante Model
     public TimeDTO toModel(Time time) {
         return modelMaper.map(time, TimeDTO.class);
     }
