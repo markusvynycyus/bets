@@ -13,6 +13,7 @@ public class TimeInputDisassembler {
     private ModelMapper modelMapper;
 
     public Time toDomainObject(TimeInput timeInput) {
+
         return modelMapper.map(timeInput, Time.class);
     }
 

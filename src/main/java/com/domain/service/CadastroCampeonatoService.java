@@ -1,13 +1,12 @@
 package com.domain.service;
 
 import com.domain.exception.CampeonatoNaoEncontradoException;
-import com.domain.exception.TimeNaoEncontradoException;
 import com.domain.model.Campeonato;
-import com.domain.model.Time;
 import com.domain.repository.CampeonatoRepository;
-import com.domain.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CadastroCampeonatoService {
 
     private static final String MSG_TIME_EM_USO

@@ -50,6 +50,4 @@ public class TimeController {
         return timeModelAssembler.toModel(time);
     }
 
-
-
 }
