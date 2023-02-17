@@ -33,7 +33,8 @@ public class Partida {
     @Column(nullable = false)
     private Resultado resultado;
 
-//    private Long golsTimeCasa;
-//    private Long golsTimeFora;
+    public Resultado getResultado() {
+        return resultado;
+    }
 
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -24,8 +25,23 @@ public class Aposta {
     @CreationTimestamp
     private LocalDateTime dataCriacao;
 
-    @ElementCollection
+    @ManyToMany
+    private List<Partida> partidas;
+
     private Map<Partida, OpcaoResultado> opcoesResultados;
+
+    public int getNumeroAcertos() {
+        int numeroAcertos = 0;
+        for (Partida partida : partidas) {
+            Resultado resultadoReal = partida.getResultado();
+            OpcaoResultado opcaoAposta = opcoesResultados.get(partida);
+            if (opcaoAposta != null && opcaoAposta.getResultado().equals(resultadoReal)) {
+                numeroAcertos++;
+            }
+        }
+        return numeroAcertos;
+    }
+
 
 
 }
