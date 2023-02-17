@@ -24,9 +24,14 @@ public class Partida {
 
     @ManyToOne
     private Time timeFora;
-    private LocalDateTime dataPratida = LocalDateTime.now();
 
-    private Long golsTimeCasa;
+    private LocalDateTime dataPartida = LocalDateTime.now();
 
-    private Long golsTimeFora;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Resultado resultado;
+
+//    private Long golsTimeCasa;
+//    private Long golsTimeFora;
+
 }
