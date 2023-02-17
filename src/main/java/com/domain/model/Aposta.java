@@ -6,11 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Partida {
+public class Aposta {
 
     @EqualsAndHashCode.Include
     @Id
@@ -18,22 +19,13 @@ public class Partida {
     private Long id;
 
     @ManyToOne
-    private Campeonato campeonato;
-
-    @ManyToOne
-    private Time timeCasa;
-
-    @ManyToOne
-    private Time timeFora;
+    private Usuario usuario;
 
     @CreationTimestamp
-    private LocalDateTime dataPartida;
+    private LocalDateTime dataCriacao;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Resultado resultado;
+    @ElementCollection
+    private Map<Partida, OpcaoResultado> opcoesResultados;
 
-//    private Long golsTimeCasa;
-//    private Long golsTimeFora;
 
 }
