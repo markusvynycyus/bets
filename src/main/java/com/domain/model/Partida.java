@@ -2,7 +2,6 @@ package com.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,12 +25,10 @@ public class Partida {
     @ManyToOne
     private Time timeFora;
 
-    @CreationTimestamp
     private LocalDateTime dataPartida;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Resultado resultado;
+    private Resultado resultado = Resultado.EMPATE;
 
     public Resultado getResultado() {
         return resultado;

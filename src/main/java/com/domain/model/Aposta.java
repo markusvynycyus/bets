@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,11 @@ public class Aposta {
     @ManyToMany
     private List<Partida> partidas;
 
-    private Map<Partida, OpcaoResultado> opcoesResultados;
+    @ElementCollection
+    @MapKeyJoinColumn(name = "partida_id")
+    @Column(name = "opcao_resultado")
+    @CollectionTable(name = "aposta_opcoes_resultados", joinColumns = @JoinColumn(name = "aposta_id"))
+    private Map<Partida, OpcaoResultado> opcoesResultados = new HashMap<>();
 
     public int getNumeroAcertos() {
         int numeroAcertos = 0;
@@ -41,7 +46,6 @@ public class Aposta {
         }
         return numeroAcertos;
     }
-
-
+//
 
 }
