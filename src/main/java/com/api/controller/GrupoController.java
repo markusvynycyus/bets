@@ -5,7 +5,7 @@ import com.api.assembler.GrupoModelAssembler;
 import com.api.dto.GrupoDTO;
 import com.domain.model.Grupo;
 import com.domain.repository.GrupoRepository;
-import com.domain.service.CadastroGrupoService;
+import com.domain.repository.service.CadastroGrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

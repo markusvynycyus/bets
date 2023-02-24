@@ -3,11 +3,9 @@ package com.api.controller;
 
 import com.api.assembler.CampeonatoModelAssembler;
 import com.api.dto.CampeonatoDTO;
-import com.api.dto.TimeDTO;
 import com.domain.model.Campeonato;
-import com.domain.model.Time;
 import com.domain.repository.CampeonatoRepository;
-import com.domain.service.CadastroCampeonatoService;
+import com.domain.repository.service.CadastroCampeonatoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

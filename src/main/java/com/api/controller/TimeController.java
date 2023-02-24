@@ -6,7 +6,7 @@ import com.api.dto.TimeDTO;
 import com.api.dto.input.TimeInput;
 import com.domain.model.Time;
 import com.domain.repository.TimeRepository;
-import com.domain.service.CadastroTimeService;
+import com.domain.repository.service.CadastroTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

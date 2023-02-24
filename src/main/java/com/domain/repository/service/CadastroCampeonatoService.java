@@ -1,4 +1,4 @@
-package com.domain.service;
+package com.domain.repository.service;
 
 import com.domain.exception.CampeonatoNaoEncontradoException;
 import com.domain.model.Campeonato;
