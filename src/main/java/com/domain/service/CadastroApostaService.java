@@ -1,4 +1,4 @@
-package com.domain.repository.service;
+package com.domain.service;
 
 import com.domain.exception.ApostaNaoEncontradaException;
 import com.domain.model.Aposta;

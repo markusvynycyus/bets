@@ -1,11 +1,8 @@
-package com.domain.repository.service;
+package com.domain.service;
 
 import com.domain.exception.PartidaNaoEncontradoException;
-import com.domain.exception.TimeNaoEncontradoException;
 import com.domain.model.Partida;
-import com.domain.model.Time;
 import com.domain.repository.PartidaRepository;
-import com.domain.repository.TimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

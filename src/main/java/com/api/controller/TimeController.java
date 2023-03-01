@@ -4,9 +4,11 @@ import com.api.assembler.TimeInputDisassembler;
 import com.api.assembler.TimeModelAssembler;
 import com.api.dto.TimeDTO;
 import com.api.dto.input.TimeInput;
+import com.domain.exception.NegocioException;
+import com.domain.exception.TimeNaoEncontradoException;
 import com.domain.model.Time;
 import com.domain.repository.TimeRepository;
-import com.domain.repository.service.CadastroTimeService;
+import com.domain.service.CadastroTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +51,28 @@ public class TimeController {
 
         return timeModelAssembler.toModel(time);
     }
+
+    @PutMapping("/{timeId}")
+    public TimeDTO atualizar(@PathVariable Long timeId,
+                                 @RequestBody @Valid TimeInput timeInput) {
+        try {
+            Time timeAtual = cadastroTimeService.buscarOuFalhar(timeId);
+
+            timeInputDisassembler.copyToDomainObject(timeInput, timeAtual);
+
+            timeAtual = cadastroTimeService.salvar(timeAtual);
+
+            return timeModelAssembler.toModel(timeAtual);
+        } catch (TimeNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/{timeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long timeId) {
+        cadastroTimeService.excluir(timeId);
+    }
+
 
 }

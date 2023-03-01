@@ -3,7 +3,7 @@ package com.api.controller;
 import com.api.assembler.GrupoModelAssembler;
 import com.api.dto.GrupoDTO;
 import com.domain.model.Usuario;
-import com.domain.repository.service.CadastroUsuarioService;
+import com.domain.service.CadastroUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

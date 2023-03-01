@@ -8,7 +8,7 @@ import com.api.dto.input.UsuarioComSenhaInput;
 import com.api.dto.input.UsuarioInput;
 import com.domain.model.Usuario;
 import com.domain.repository.UsuarioRepository;
-import com.domain.repository.service.CadastroUsuarioService;
+import com.domain.service.CadastroUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
