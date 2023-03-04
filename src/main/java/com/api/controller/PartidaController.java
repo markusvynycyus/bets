@@ -1,16 +1,19 @@
 package com.api.controller;
 
+import com.api.assembler.PartidaInputDissassembler;
 import com.api.assembler.PartidaModelAssembler;
 import com.api.dto.PartidaDTO;
+import com.api.dto.input.PartidaInput;
+import com.domain.exception.NegocioException;
+import com.domain.exception.PartidaNaoEncontradoException;
 import com.domain.model.Partida;
 import com.domain.repository.PartidaRepository;
 import com.domain.service.CadastroPartidaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -18,6 +21,8 @@ import java.util.List;
 @RequestMapping(value= "/partidas")
 public class PartidaController {
 
+    @Autowired
+    private PartidaInputDissassembler partidaInputDisassembler;
 
     @Autowired
     private PartidaRepository partidaRepository;
@@ -39,4 +44,39 @@ public class PartidaController {
         Partida partida = cadastroPartidaService.buscarOuFalhar(partidaId);
         return partidaModelAssembler.toModel(partida);
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public PartidaDTO adicionar(@RequestBody @Valid PartidaInput partidaInput) {
+        Partida partida = partidaInputDisassembler.toDomainObject(partidaInput);
+
+        partida = cadastroPartidaService.salvar(partida);
+
+        return partidaModelAssembler.toModel(partida);
+    }
+
+    @PutMapping("/{partidaId}")
+    public PartidaDTO atualizar(@PathVariable Long partidaId,
+                             @RequestBody @Valid PartidaInput partidaInput) {
+        try {
+            Partida partidaAtual = cadastroPartidaService.buscarOuFalhar(partidaId);
+
+            partidaInputDisassembler.copyToDomainObject(partidaInput, partidaAtual);
+
+            partidaAtual = cadastroPartidaService.salvar(partidaAtual);
+
+            return partidaModelAssembler.toModel(partidaAtual);
+        } catch (PartidaNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/{partidaId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long partidaId) {
+        cadastroPartidaService.excluir(partidaId);
+    }
+
+
+
 }

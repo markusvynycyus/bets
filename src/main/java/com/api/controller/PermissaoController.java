@@ -3,15 +3,21 @@ package com.api.controller;
 import com.api.assembler.PermissaoInputDisassembler;
 import com.api.assembler.PermissaoModelAssembler;
 import com.api.dto.PermissaoDTO;
+import com.api.dto.TimeDTO;
+import com.api.dto.input.PermissaoInput;
+import com.api.dto.input.TimeInput;
+import com.domain.exception.NegocioException;
+import com.domain.exception.PermissaoNaoEncontradaException;
+import com.domain.exception.TimeNaoEncontradoException;
 import com.domain.model.Permissao;
+import com.domain.model.Time;
 import com.domain.repository.PermissaoRepository;
 import com.domain.service.CadastroPermissaoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -41,4 +47,39 @@ public class PermissaoController {
         Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
         return permissaoModelAssembler.toModel(permissao);
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public PermissaoDTO adicionar(@RequestBody @Valid PermissaoInput permissaoInput) {
+        Permissao permissao = permissaoInputDisassembler.toDomainObject(permissaoInput);
+
+        permissao = cadastroPermissaoService.salvar(permissao);
+
+        return permissaoModelAssembler.toModel(permissao);
+    }
+
+    @PutMapping("/{permissaoId}")
+    public PermissaoDTO atualizar(@PathVariable Long permissaoId,
+                             @RequestBody @Valid PermissaoInput permissaoInput) {
+        try {
+            Permissao permissaoAtual = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+
+            permissaoInputDisassembler.copyToDomainObject(permissaoInput, permissaoAtual);
+
+            permissaoAtual = cadastroPermissaoService.salvar(permissaoAtual);
+
+            return permissaoModelAssembler.toModel(permissaoAtual);
+        } catch (PermissaoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/{permissaoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long permissaoId) {
+        cadastroPermissaoService.excluir(permissaoId);
+    }
+
+
+
 }
