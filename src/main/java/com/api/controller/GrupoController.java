@@ -7,6 +7,8 @@ import com.api.dto.input.GrupoInput;
 import com.domain.model.Grupo;
 import com.domain.repository.GrupoRepository;
 import com.domain.service.CadastroGrupoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos")
+@Tag(name = "Grupos", description = "Gerencia Grupos")
 public class GrupoController {
 
     @Autowired
@@ -30,7 +33,9 @@ public class GrupoController {
     @Autowired
     private GrupoInputDisassembler grupoInputDisassembler;
 
+
     @GetMapping
+    @Operation(summary= "Listar Grupos")
     public List<GrupoDTO> listar() {
         List<Grupo> todosGrupos = grupoRepository.findAll();
 
@@ -38,6 +43,7 @@ public class GrupoController {
     }
 
     @GetMapping("/{grupoId}")
+    @Operation(summary= "Listar Grupo por ID")
     public GrupoDTO buscar(@PathVariable Long grupoId) {
         Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
 
@@ -45,6 +51,7 @@ public class GrupoController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary= "Adicionar Time")
     public GrupoDTO adicionar(@RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupo = grupoInputDisassembler.toDomainObject(grupoInput);
 
@@ -54,6 +61,7 @@ public class GrupoController {
     }
 
     @PutMapping("/{grupoId}")
+    @Operation(summary= "Atualizar Grupo por ID")
     public GrupoDTO atualizar(@PathVariable Long grupoId,
                                 @RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupoAtual = cadastroGrupoService.buscarOuFalhar(grupoId);
@@ -66,6 +74,7 @@ public class GrupoController {
     }
 
     @DeleteMapping("/{grupoId}")
+    @Operation(summary= "Deletar Grupo por ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long grupoId) {
         cadastroGrupoService.excluir(grupoId);

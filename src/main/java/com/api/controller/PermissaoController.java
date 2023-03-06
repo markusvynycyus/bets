@@ -13,6 +13,7 @@ import com.domain.model.Permissao;
 import com.domain.model.Time;
 import com.domain.repository.PermissaoRepository;
 import com.domain.service.CadastroPermissaoService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,18 +38,21 @@ public class PermissaoController {
     private PermissaoInputDisassembler permissaoInputDisassembler;
 
     @GetMapping
+    @Operation(summary= "Listar Permissoões")
     public List<PermissaoDTO> listar() {
         List<Permissao> permissaos = permissaoRepository.findAll();
         return permissaoModelAssembler.toCollectionModel(permissaos);
     }
 
     @GetMapping("/{permissaoId}")
+    @Operation(summary= "Listar Permissao por ID")
     public PermissaoDTO buscar(@PathVariable Long permissaoId) {
         Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
         return permissaoModelAssembler.toModel(permissao);
     }
 
     @PostMapping
+    @Operation(summary= "Adicionar Permissao")
     @ResponseStatus(HttpStatus.CREATED)
     public PermissaoDTO adicionar(@RequestBody @Valid PermissaoInput permissaoInput) {
         Permissao permissao = permissaoInputDisassembler.toDomainObject(permissaoInput);
@@ -59,6 +63,7 @@ public class PermissaoController {
     }
 
     @PutMapping("/{permissaoId}")
+    @Operation(summary= "Atualizar Permissao por ID")
     public PermissaoDTO atualizar(@PathVariable Long permissaoId,
                              @RequestBody @Valid PermissaoInput permissaoInput) {
         try {
@@ -75,6 +80,7 @@ public class PermissaoController {
     }
 
     @DeleteMapping("/{permissaoId}")
+    @Operation(summary= "Deletar Permissao por ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long permissaoId) {
         cadastroPermissaoService.excluir(permissaoId);

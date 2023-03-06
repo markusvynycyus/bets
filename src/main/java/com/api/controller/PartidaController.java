@@ -9,6 +9,7 @@ import com.domain.exception.PartidaNaoEncontradoException;
 import com.domain.model.Partida;
 import com.domain.repository.PartidaRepository;
 import com.domain.service.CadastroPartidaService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,18 +35,21 @@ public class PartidaController {
     private CadastroPartidaService cadastroPartidaService;
 
     @GetMapping
+    @Operation(summary= "Listar Partidas")
     public List<PartidaDTO> listar() {
         List<Partida> partidas = partidaRepository.findAll();
         return partidaModelAssembler.toCollectionModel(partidas);
     }
 
     @GetMapping("/{partidaId}")
+    @Operation(summary= "Listar Partida por ID")
     public PartidaDTO buscar(@PathVariable Long partidaId) {
         Partida partida = cadastroPartidaService.buscarOuFalhar(partidaId);
         return partidaModelAssembler.toModel(partida);
     }
 
     @PostMapping
+    @Operation(summary= "Adicionar Partida")
     @ResponseStatus(HttpStatus.CREATED)
     public PartidaDTO adicionar(@RequestBody @Valid PartidaInput partidaInput) {
         Partida partida = partidaInputDisassembler.toDomainObject(partidaInput);
@@ -56,6 +60,7 @@ public class PartidaController {
     }
 
     @PutMapping("/{partidaId}")
+    @Operation(summary= "Atualizar Partida por ID")
     public PartidaDTO atualizar(@PathVariable Long partidaId,
                              @RequestBody @Valid PartidaInput partidaInput) {
         try {
@@ -72,11 +77,10 @@ public class PartidaController {
     }
 
     @DeleteMapping("/{partidaId}")
+    @Operation(summary= "Deletar Partida por ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long partidaId) {
         cadastroPartidaService.excluir(partidaId);
     }
-
-
 
 }
