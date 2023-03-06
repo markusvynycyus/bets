@@ -9,6 +9,8 @@ import com.api.dto.input.UsuarioInput;
 import com.domain.model.Usuario;
 import com.domain.repository.UsuarioRepository;
 import com.domain.service.CadastroUsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/usuarios")
+@Tag(name = "Usuarios", description = "Gerencia Usuários")
 public class UsuarioController {
 
     @Autowired
@@ -33,6 +36,7 @@ public class UsuarioController {
     private UsuarioInputDisassembler usuarioInputDisassembler;
 
     @GetMapping
+    @Operation(summary= "Listar Usuários")
     public List<UsuarioDTO> listar() {
         List<Usuario> todasUsuarios = usuarioRepository.findAll();
 
@@ -40,6 +44,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{usuarioId}")
+    @Operation(summary= "Listar Usuário por ID")
     public UsuarioDTO buscar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuario.buscarOuFalhar(usuarioId);
 
@@ -48,6 +53,7 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary= "Adicionar Usuário")
     public UsuarioDTO adicionar(@RequestBody @Valid UsuarioComSenhaInput usuarioInput) {
         Usuario usuario = usuarioInputDisassembler.toDomainObject(usuarioInput);
         usuario = cadastroUsuario.salvar(usuario);
@@ -56,6 +62,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{usuarioId}")
+    @Operation(summary= "Atualizar Usuário por ID")
     public UsuarioDTO atualizar(@PathVariable Long usuarioId,
                                   @RequestBody @Valid UsuarioInput usuarioInput) {
         Usuario usuarioAtual = cadastroUsuario.buscarOuFalhar(usuarioId);
@@ -66,6 +73,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{usuarioId}/senha")
+    @Operation(summary= "Deletar Usuário por ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senha) {
         cadastroUsuario.alterarSenha(usuarioId, senha.getSenhaAtual(), senha.getNovaSenha());

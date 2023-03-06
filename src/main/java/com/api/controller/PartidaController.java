@@ -10,6 +10,7 @@ import com.domain.model.Partida;
 import com.domain.repository.PartidaRepository;
 import com.domain.service.CadastroPartidaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value= "/partidas")
+@Tag(name = "Partidas", description = "Gerencia Pardidas")
 public class PartidaController {
 
     @Autowired
